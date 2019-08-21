@@ -13,4 +13,7 @@ spring:
           max-wait: 1000ms
       timeout: 2000ms
       database: 1
-
+gps:
+  baidu-map:
+    ak: mYSzoaLtqidQe4SxIg6EpfsVme8OqRhK
+    trace-service-id: 202960

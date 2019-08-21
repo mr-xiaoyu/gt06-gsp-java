@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
  * 百度地图配置
  * @author xiaoyu
  */
-@Configuration
 @Data
+@Configuration
 @ConfigurationProperties(prefix = "gps.baidu-map")
 public class BaiduMapProperties {
 
