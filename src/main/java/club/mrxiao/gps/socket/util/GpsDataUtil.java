@@ -1,9 +1,4 @@
-package cn.hehej.serversocket.util;
-
-import org.apache.commons.lang.StringUtils;
-
-import cn.hehej.common.util.ArithUtil;
-import cn.hehej.common.util.DateUtil;
+package club.mrxiao.gps.socket.util;
 
 /**
  * GPS数据处理工具类
@@ -23,7 +18,7 @@ public class GpsDataUtil {
      */
 	public static byte[] parseHexStr2Byte(String hexStr) {
 		if (hexStr.length() < 1) {
-            return null;
+            return new byte[1024];
         }
 		byte[] result = new byte[hexStr.length()/2];
 		for (int i = 0;i< hexStr.length()/2; i++) {
@@ -101,7 +96,7 @@ public class GpsDataUtil {
 	 * @return
 	 */
 	public static Double parseHexStr2Location(String hexStr) {
-		if(StringUtils.isBlank(hexStr)){
+		if(StringUtil.isNullStr(hexStr)){
 			return null;
 		}
 		return ArithUtil.div(Integer.parseInt(hexStr, 16),1800000,7);

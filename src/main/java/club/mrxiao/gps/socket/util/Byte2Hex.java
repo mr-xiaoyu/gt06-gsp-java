@@ -1,4 +1,4 @@
-package cn.hehej.serversocket.util;
+package club.mrxiao.gps.socket.util;
 
 /**
  * 字节数组与16进制字符串相互转换的工具类

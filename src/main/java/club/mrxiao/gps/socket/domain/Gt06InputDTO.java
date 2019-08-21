@@ -1,4 +1,6 @@
-package cn.hehej.serversocket.domain;
+package club.mrxiao.gps.socket.domain;
+
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -7,6 +9,7 @@ import java.io.Serializable;
  * @author  xiaoyu
  *
  */
+@Data
 public class Gt06InputDTO implements Serializable {
 
 	private static final long serialVersionUID = 5273619433954288442L;
@@ -229,13 +232,13 @@ public class Gt06InputDTO implements Serializable {
 		input = input.substring(2 * 2);
 
 		// 内容长度(1字节)
-		String neiRongChangDu = input.substring(0, 1 * 2);
+		String neiRongChangDu = input.substring(0,2);
 		length = Integer.parseInt(neiRongChangDu, 16);
-		input = input.substring(1 * 2);
+		input = input.substring(2);
 
 		// 协议号(1字节)
-		protocolNumber = input.substring(0, 1 * 2);
-		input = input.substring(1 * 2);
+		protocolNumber = input.substring(0, 2);
+		input = input.substring(2);
 
 		// 信息内容(N字节)
 		content = input.substring(0, length * 2 - 5 * 2);

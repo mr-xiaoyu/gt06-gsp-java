@@ -1,4 +1,4 @@
-package cn.hehej.serversocket.util;
+package club.mrxiao.gps.socket.util;
 
 import java.io.Closeable;
 

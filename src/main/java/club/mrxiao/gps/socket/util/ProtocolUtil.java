@@ -1,8 +1,6 @@
-package cn.hehej.serversocket.util;
+package club.mrxiao.gps.socket.util;
 
-import org.apache.commons.lang.StringUtils;
-
-import cn.hehej.serversocket.domain.Gt06InputDTO;
+import club.mrxiao.gps.socket.domain.Gt06InputDTO;
 
 /**
  * 协议处理
@@ -18,7 +16,7 @@ public class ProtocolUtil {
 	 * @return
 	 */
 	public static String serverResponseData(String protocolNumber,String seriesNumber){
-		if(StringUtils.isNotBlank(seriesNumber) && StringUtils.isNotBlank(protocolNumber) ){
+		if(!StringUtil.isNullStr(seriesNumber) && !StringUtil.isNullStr(protocolNumber) ){
 			String start = Gt06InputDTO.START_BIT;
 			String length = String.format("%02x",5).toUpperCase();
 			String hexstr = length+protocolNumber+seriesNumber;

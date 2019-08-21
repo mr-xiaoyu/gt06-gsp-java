@@ -1,22 +1,15 @@
-package cn.hehej.serversocket;
+package club.mrxiao.gps.socket;
+
+import club.mrxiao.gps.socket.domain.GpsDataInputDTO;
+import club.mrxiao.gps.socket.domain.Gt06InputDTO;
+import club.mrxiao.gps.socket.util.*;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
-import org.apache.commons.lang.StringUtils;
-
-import cn.hehej.common.util.CodeUtil;
-import cn.hehej.common.util.DateUtil;
-import cn.hehej.serversocket.domain.GpsDataInputDTO;
-import cn.hehej.serversocket.domain.Gt06InputDTO;
-import cn.hehej.serversocket.util.Byte2Hex;
-import cn.hehej.serversocket.util.Crc16Util;
-import cn.hehej.serversocket.util.CloseUtil;
-import cn.hehej.serversocket.util.ProtocolUtil;
-import cn.hehej.system.domain.Road;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * GSP数据处理
@@ -24,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class GpsDataDispose extends Thread {
+public class GpsDataDispose implements Runnable {
 	
 	
 	/**
@@ -69,7 +62,7 @@ public class GpsDataDispose extends Thread {
 	public void run() {
 		while (flag) {
 			String hex = readFromClient();
-			if(StringUtils.isBlank(hex)){
+			if(StringUtil.isNullStr(hex)){
 				flag = false;
 				CloseUtil.closeAll(dis,dos);
 				GpsService.GPS_DATA_DISPOSE_LIST.remove(this);
@@ -99,7 +92,8 @@ public class GpsDataDispose extends Thread {
 			String crc = Integer.toHexString(crc16.getCrcValue()).toUpperCase();
 			if (dto.getCrc().equals(crc)) {
 				if (Gt06InputDTO.PROTOCOL_NUMBER_LOGIN_INFORMATION.equals(protocolNumber)) {
-					Road road = CodeUtil.findRoadByTerminalId(content);
+					log.info(content);
+					/*Road road = CodeUtil.findRoadByTerminalId(content);
 					if(road != null){
 						this.name = road.getName();
 						this.roadId = road.getRoadId();
@@ -107,7 +101,7 @@ public class GpsDataDispose extends Thread {
 						this.imei = content;
 						String resultString = ProtocolUtil.serverResponseData(protocolNumber, seriesNumber);
 						sendToClient(resultString);
-					}
+					}*/
 				}else if (Gt06InputDTO.PROTOCOL_NUMBER_GPSANDSTATE_INFORMATION.equals(protocolNumber)) {
 					log.info("报警信息：{},name：{}", content,this.name);
 					String resultString = ProtocolUtil.serverResponseData(protocolNumber, seriesNumber);
@@ -115,7 +109,8 @@ public class GpsDataDispose extends Thread {
 				}else if (Gt06InputDTO.PROTOCOL_NUMBER_STATE_INFORMATION.equals(protocolNumber)) {
 					String resultString = ProtocolUtil.serverResponseData(protocolNumber, seriesNumber);
 					sendToClient(resultString);
-					GpsDataInputDTO gpsDataInputDTO = CodeUtil.getGpsDataFormCache(imei);
+					log.info(imei);
+					/*GpsDataInputDTO gpsDataInputDTO = CodeUtil.getGpsDataFormCache(imei);
 					if(gpsDataInputDTO != null && gpsDataInputDTO.getLatitude() != null && gpsDataInputDTO.getLongitude() != null){
 						gpsDataInputDTO.setDate(DateUtil.getCurrentTimeMillis());
 						try {
@@ -123,7 +118,7 @@ public class GpsDataDispose extends Thread {
 						} catch (Exception e) {
 							log.error("GPS轨迹点上传失败",e);
 						}
-					}
+					}*/
 					
 				}else if (Gt06InputDTO.PROTOCOL_NUMBER_ICCID.equals(protocolNumber)) {
 					log.info("ICCID信息：{},name：{}", content,this.name);
@@ -131,7 +126,8 @@ public class GpsDataDispose extends Thread {
 					GpsDataInputDTO gpsDataInputDTO = new GpsDataInputDTO(content,name,roadId,workId,imei);
 					if(gpsDataInputDTO.getLatitude() != null && gpsDataInputDTO.getLongitude() != null){
 						try {
-							CodeUtil.gpsEquipmentAddPoint(gpsDataInputDTO);
+							log.info(imei);
+							/*CodeUtil.gpsEquipmentAddPoint(gpsDataInputDTO);*/
 						} catch (Exception e) {
 							log.error("GPS轨迹点上传失败",e);
 						}
@@ -176,7 +172,7 @@ public class GpsDataDispose extends Thread {
 	 * @param resultString
 	 */
 	private void sendToClient(String resultString) {
-		if(StringUtils.isNotBlank(resultString)){
+		if(!StringUtil.isNullStr(resultString)){
 			try {
 				dos.write(Byte2Hex.hexString2Bytes(resultString));
 				dos.flush();

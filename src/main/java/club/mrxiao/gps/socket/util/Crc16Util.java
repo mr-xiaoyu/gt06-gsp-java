@@ -1,4 +1,4 @@
-package cn.hehej.serversocket.util;
+package club.mrxiao.gps.socket.util;
 
 /**
  * java采用查表法实现CRC16
