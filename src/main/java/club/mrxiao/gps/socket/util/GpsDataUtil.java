@@ -87,7 +87,7 @@ public class GpsDataUtil {
 
 		String date = "20"+year+"-"+month+"-"+day+" "+time+":"+minute+":"+second;
 		
-		return DateUtil.Date2TimeStamp(date, "yyyy-MM-dd HH:mm:ss");
+		return DateUtil.date2TimeStamp(date, "yyyy-MM-dd HH:mm:ss");
 	}
 	
 	/**

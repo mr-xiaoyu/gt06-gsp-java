@@ -2,6 +2,10 @@ package club.mrxiao.gps.socket.util;
 
 import java.io.Closeable;
 
+/**
+ *  关闭连接
+ * @author xiaoyu
+ */
 public class CloseUtil {
 public static void closeAll(Closeable...io)
 {

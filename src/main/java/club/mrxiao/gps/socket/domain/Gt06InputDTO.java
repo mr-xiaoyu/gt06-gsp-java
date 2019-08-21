@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @author  xiaoyu
  *
  */
+@SuppressWarnings("ALL")
 @Data
 public class Gt06InputDTO implements Serializable {
 
@@ -60,7 +61,7 @@ public class Gt06InputDTO implements Serializable {
 	private String start;
 
 	/** 长度 */
-	private int length;
+	private Integer length;
 
 	/** 协议号 */
 	private String protocolNumber;
